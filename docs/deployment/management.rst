@@ -116,6 +116,32 @@ the :ref:`deployment installation guide <deployment-parsemail>`.
 
    input mbox filename. If not supplied, a patch will be read from ``stdin``.
 
+replacerelations
+~~~~~~~~~~~~~~~~
+
+.. program:: manage.py replacerelations
+
+Parse a patch groups file and store any relation found
+
+.. code-block:: shell
+
+    ./manage.py replacerelations <infile>
+
+This is a script used to ingest relations into Patchwork.
+A patch groups file contains on each line patchwork ids of patches that form a relation.
+Eg contents of a patch groups file:
+
+    1 3 5
+    2
+    7 10 11 12
+
+In this case the script will identify 2 relations, (1, 3, 5) and (7, 10, 11, 12).
+Running this script will remove all existing relations and replace them with the relations found in the file.
+
+.. option:: infile
+
+    input patch groups file.
+
 rehash
 ~~~~~~
 

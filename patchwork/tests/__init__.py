@@ -8,3 +8,4 @@ import os
 TEST_MAIL_DIR = os.path.join(os.path.dirname(__file__), 'mail')
 TEST_PATCH_DIR = os.path.join(os.path.dirname(__file__), 'patches')
 TEST_FUZZ_DIR = os.path.join(os.path.dirname(__file__), 'fuzztests')
+TEST_RELATIONS_DIR = os.path.join(os.path.dirname(__file__), 'relations')

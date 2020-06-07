@@ -11,7 +11,7 @@ from django.core.management import call_command
 from django.test import TestCase
 
 from patchwork import models
-from patchwork.tests import TEST_MAIL_DIR
+from patchwork.tests import TEST_MAIL_DIR, TEST_RELATIONS_DIR
 from patchwork.tests import utils
 
 
@@ -124,3 +124,28 @@ class ParsearchiveTest(TestCase):
 
         self.assertIn('Processed 1 messages -->', out.getvalue())
         self.assertIn('  1 dropped', out.getvalue())
+
+class ReplacerelationsTest(TestCase):
+    def test_invalid_path(self):
+        out = StringIO()
+        with self.assertRaises(SystemExit) as exc:
+            call_command('replacerelations', 'xyz123random', stdout=out)
+        self.assertEqual(exc.exception.code, 1)
+
+    def test_valid_relations(self):
+        utils.create_patches(6)
+        out = StringIO()
+        call_command('replacerelations',
+                     os.path.join(TEST_RELATIONS_DIR,
+                                  'patch-groups'),
+                                  stdout=out)
+        
+        self.assertEqual(models.PatchRelation.objects.count(), 2)
+
+        call_command('replacerelations',
+                     os.path.join(TEST_RELATIONS_DIR,
+                                  'patch-groups-missing-patch-ids'),
+                                  stdout=out)
+        
+        self.assertEqual(models.PatchRelation.objects.count(), 2)
+
