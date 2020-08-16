@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG UID
 ARG GID
@@ -40,7 +40,26 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-client \
     tzdata \
     zlib1g-dev \
+    locales \
+    patchutils \
+    procmail \
+    python3-dev \
+    python3-flaskext.wtf \
+    python3-fuzzywuzzy \
+    python3-git \
+    python3-pip \
+    python3-pygit2 \
+    python3-setuptools \
+    python3-sklearn \
+    python3-toml \
+    python3-tqdm \
+    python3-wheel \
+    python3-requests \
+    sudo \
+    vim \
+    wget \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
     git clone https://github.com/momo-lab/xxenv-latest $PYENV_ROOT/plugins/xxenv-latest && \
@@ -52,6 +71,27 @@ RUN pyenv latest install 3.6 && \
 RUN pyenv global $(pyenv versions --bare | tac)
 
 RUN pip install tox tox-pyenv
+
+RUN pip3 --no-cache-dir install \
+	dateparser \
+	flask-bootstrap \
+	flask-nav anytree \
+        gitpython \
+        pygit2 \
+        tqdm \
+        requests \
+        anytree \
+        dateparser \
+        fuzzywuzzy \
+        toml \
+        sklearn \
+        flask \
+        flask_bootstrap \
+        flask_nav \
+        flask_wtf \
+        python-levenshtein
+
+
 
 # we deliberately leave the requirements files in /opt so we can ping the user
 # in entrypoint.sh if they change

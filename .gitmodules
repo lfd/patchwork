@@ -1,0 +1,3 @@
+[submodule "PaStA"]
+	path = PaStA
+	url = https://github.com/lfd/PaStA.git

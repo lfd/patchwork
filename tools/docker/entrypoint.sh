@@ -130,6 +130,21 @@ elif [ "$1" == "--test" ] || [ "$1" == "--quick-test" ]; then
 elif [ "$1" == "--tox" ] || [ "$1" == "--quick-tox" ]; then
     shift
     tox $@
+elif [ "$1" == "--test-pasta" ]; then
+    if [ "$#" -ne 3  ]; then
+        echo Enter the project name and the archive path.
+        exit 1
+    fi
+    python /home/patchwork/patchwork/create_project.py $2
+    python manage.py parsearchive --list-id $2 $3
+    rm -f *.tar # remove any existing dumps
+    python manage.py dumparchive $2
+    tar -xf *.tar
+    mv $2.mbox patchwork-dump.mbox
+    ./PaStA/patchwork-analyses.sh
+    python manage.py replacerelations PaStA/resources/linux/resources/patch-groups-patchwork
+
 else # run whatever CMD is set to
     $@
 fi
+
