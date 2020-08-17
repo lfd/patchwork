@@ -1,3 +1,5 @@
 [submodule "PaStA"]
 	path = PaStA
 	url = https://github.com/lfd/PaStA.git
+[submodule "./PaStA/"]
+	url = https://github.com/rsarky/PaStA
