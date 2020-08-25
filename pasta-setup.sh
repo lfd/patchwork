@@ -8,8 +8,12 @@
 
 set -e
 
-python create-project.py $2
-./manage.py parsearchive $1 --list-id $2
-./manage.py dumparchive $2
-tar -xf *.tar
+LIST_ADDR=$1
+PROJECT=$(echo $LIST_ADDR | sed -e 's/\(.*\)@.*/\1/')
+MBOX=./${LIST_ADDR}.mbox
+
+python create-project.py $LIST_ADDR
+./manage.py parsearchive $MBOX --list-id $PROJECT
+./manage.py dumparchive $PROJECT
+tar -xvf *.tar
 rm -f *.tar
